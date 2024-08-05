@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islami/app_theme.dart';
 import 'package:islami/tabs/quran/quran_tab.dart';
 
-class SuraDetailsScreen extends StatelessWidget {
+class SuraDetailsScreen extends StatefulWidget {
   static const String routeName= '/sura-details';
+
+  @override
+  State<SuraDetailsScreen> createState() => _SuraDetailsScreenState();
+}
+
+class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   List<String>ayat = [
-    'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ',
-    'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
-    ' الرَّحْمَنِ الرَّحِيمِ',
-    ' مَالِكِ يَوْمِ الدِّينِ',
-    ' إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
-    ' اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
-    ' صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّين',
+    // 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ',
+    // 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
+    // ' الرَّحْمَنِ الرَّحِيمِ',
+    // ' مَالِكِ يَوْمِ الدِّينِ',
+    // ' إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
+    // ' اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
+    // ' صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّين',
   ];
+   late SuraDetailsArgs args;
 
   @override
   Widget build(BuildContext context) {
 
-   SuraDetailsArgs args = ModalRoute.of(context)!.settings.arguments as SuraDetailsArgs;
-
+    args = ModalRoute.of(context)!.settings.arguments as SuraDetailsArgs;
+    loadSuraFile();
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -40,7 +48,12 @@ class SuraDetailsScreen extends StatelessWidget {
             color: AppTheme.white,
             borderRadius: BorderRadius.circular(25),
           ),
-          child: ListView.builder(
+          child:ayat.isEmpty  ?
+          Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,),
+          ):
+           ListView.builder(
             itemBuilder: (_, index) => Text(
               ayat[index],
               style: Theme.of(context).textTheme.titleLarge,
@@ -51,5 +64,12 @@ class SuraDetailsScreen extends StatelessWidget {
         ),
       ),
       );
+  }
+
+   Future <void >loadSuraFile() async{
+    // await Future.delayed(Duration(seconds: 2));
+    String sura = await rootBundle.loadString('assets/files/${args.index+1}.txt');
+    ayat=sura.split('\r\n');
+    setState(() {});
   }
 }
