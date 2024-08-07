@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 AssetImage('assets/images/quran.png'),
         ),
               label: 'Quran',
+            
         ),
             BottomNavigationBarItem(
               icon: ImageIcon(
