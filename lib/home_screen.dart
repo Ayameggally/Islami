@@ -6,6 +6,7 @@ import 'package:islami/tabs/sebha/sebha_tab.dart';
 import 'package:islami/tabs/settings/setting_provider.dart';
 import 'package:islami/tabs/settings/settings_tab.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     SettingProvider settingProvider =Provider.of<SettingProvider>(context);
+  
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -41,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     child:Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-          title: Text('إسلامي'),
+          title: Text(AppLocalizations.of(context)!.islamic),
         ),
       body:  tabs[currentIndex],
        bottomNavigationBar: BottomNavigationBar(
@@ -55,32 +57,32 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: ImageIcon(
                 AssetImage('assets/images/quran.png'),
         ),
-              label: 'Quran',
+              label:AppLocalizations.of(context)!. quran,
             
         ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/images/quran-quran-svgrepo-com.png'),
               ),
-              label: 'Hadeth',
+              label:AppLocalizations.of(context)!.hadeth,
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/images/sebha_blue.png'),
               ),
-              label: 'Sebha',
+              label: AppLocalizations.of(context)!.sebha,
             ),
             BottomNavigationBarItem(
               icon: ImageIcon(
                 AssetImage('assets/images/radio_blue.png'),
               ),
-              label: 'Radio',
+              label:AppLocalizations.of(context)!.radio ,
             ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.settings_outlined
               ),
-              label: 'Settings',
+              label: AppLocalizations.of(context)!.setting,
             ),
         ],
        ),
