@@ -7,18 +7,19 @@ import 'package:islami/tabs/quran/sura_details_screen.dart';
 import 'package:islami/tabs/settings/setting_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-void main() {
+void main()async {
+  
   runApp (ChangeNotifierProvider(
-    create: (_) => SettingProvider() ..getTheme(),
+    create: (_) => SettingProvider()..loadTheme()..getLanguage() ,
     child: IslamiApp()));
 }
 
 class IslamiApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    SettingProvider settingProvider=Provider.of<SettingProvider>(context)..getTheme();
+    SettingProvider settingProvider=Provider.of<SettingProvider>(context)..loadTheme()..getLanguage();
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false ,
       routes: {
@@ -36,8 +37,4 @@ class IslamiApp extends StatelessWidget {
       locale: Locale(settingProvider.languge),
        );
   }
-
- 
-
-  
 }

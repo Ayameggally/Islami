@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SettingProvider extends ChangeNotifier{
   ThemeMode themeMode =ThemeMode.light;
   String languge = 'en';
-  Future<void> getTheme()async{
-   final SharedPreferences prefs = await SharedPreferences.getInstance();
-   bool? isDark= prefs.getBool('isDark');
-   if(isDark!=null){
-      if(isDark==true){
-        themeMode=ThemeMode.dark;
-      }else{
-        themeMode=ThemeMode.light;
-      }
-      notifyListeners();
-    }
+   SharedPreferences ? prefs ;
 
-
-  }
 
   bool get isDark =>themeMode == ThemeMode.dark;
   String get backgroundImagePath => 
   isDark ? 'assets/images/home_dark_background.png': 'assets/images/bg3.png';
 
-  Future<void> changeThemeMode(ThemeMode selectedThemeMode) async {
+  void changeThemeMode(ThemeMode selectedThemeMode){
     themeMode = selectedThemeMode;
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-     await prefs.setBool('isDark',themeMode==ThemeMode.dark);
-
+    seThemeToCash(themeMode);
     notifyListeners();
   }
   void changeLanguge (String selectedLanguge){
     languge = selectedLanguge;
     notifyListeners();
   }
+    Future seThemeToCash(ThemeMode themeMode)async{
+    prefs=await SharedPreferences.getInstance();
+    String themeName= themeMode==ThemeMode.light?'Light':'Dark';
+    await prefs!.setString('theme', themeName);
 
+   }
+     loadTheme()async{
+  prefs=await SharedPreferences.getInstance();
+
+  final String? themeName = prefs!.getString('theme');
+  if(themeName!=null){
+    themeMode=themeName=='Light'?ThemeMode.light:ThemeMode.dark;
+        notifyListeners();
+
+  }
+
+}
+Future<void> getLanguage()async{
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? langu=prefs.getString('lang');
+    if(langu!=null){
+      if(langu=='en'){
+        languge='en';
+      }else{
+        languge='ar';
+      }
+    }
+    notifyListeners();
+  
+}
 }
